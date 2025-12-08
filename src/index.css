@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+:root {
+  --color-brand-red: #EF4444;
+  --color-brand-yellow: #FACC15;
+  --color-brand-white: #FFFFFF;
+  --color-brand-dark: #111827;
+  --color-brand-gray: #F3F4F6;
+}
+
+@theme {
+  --color-brand-red: var(--color-brand-red);
+  --color-brand-yellow: var(--color-brand-yellow);
+  --color-brand-white: var(--color-brand-white);
+  --color-brand-dark: var(--color-brand-dark);
+  --color-brand-gray: var(--color-brand-gray);
+  --font-sans: Montserrat, sans-serif;
+}
+
+/* Ocean Theme (Blue/Teal) */
+[data-theme='ocean'] {
+  --color-brand-red: #0EA5E9;
+  /* Sky Blue 500 */
+  --color-brand-yellow: #F59E0B;
+  /* Amber 500 */
+  --color-brand-white: #F8FAFC;
+  /* Slate 50 */
+  --color-brand-dark: #0F172A;
+  /* Slate 900 */
+  --color-brand-gray: #E2E8F0;
+  /* Slate 200 */
+}
+
+/* Neon Theme (Dark Mode - Purple/Green) */
+[data-theme='neon'] {
+  --color-brand-red: #A855F7;
+  /* Purple 500 */
+  --color-brand-yellow: #22C55E;
+  /* Green 500 */
+  --color-brand-white: #111827;
+  /* Gray 900 (Background) */
+  --color-brand-dark: #F9FAFB;
+  /* Gray 50 (Text) */
+  --color-brand-gray: #1F2937;
+  /* Gray 800 */
+}
+
+/* Modern Theme (Bold/Clean) */
+[data-theme='modern'] {
+  --color-brand-red: #2563EB;
+  /* Royal Blue */
+  --color-brand-yellow: #000000;
+  /* Black Accent */
+  --color-brand-white: #FFFFFF;
+  /* Pure White */
+  --color-brand-dark: #000000;
+  /* Pure Black */
+  --color-brand-gray: #F3F4F6;
+  /* Cool Gray */
+  --font-sans: "Outfit", sans-serif;
+}
+
+/* Soft Theme (Friendly/Approachable) */
+[data-theme='soft'] {
+  --color-brand-red: #FF6B6B;
+  /* Soft Coral */
+  --color-brand-yellow: #FFD93D;
+  /* Sunshine Yellow */
+  --color-brand-white: #FFF9F5;
+  /* Warm White */
+  --color-brand-dark: #2D3436;
+  /* Soft Charcoal */
+  --color-brand-gray: #F0F3F5;
+  /* Cloud Gray */
+  --font-sans: "Nunito", sans-serif;
+}
+
+@layer base {
+  body {
+    @apply bg-brand-white text-brand-dark font-sans antialiased;
+  }
+}
+
+@layer utilities {
+  .bg-dot-pattern {
+    background-image: radial-gradient(var(--color-brand-gray) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .bg-dot-pattern-red {
+    background-image: radial-gradient(rgba(239, 68, 68, 0.1) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+
+  .text-gradient {
+    @apply text-transparent bg-clip-text bg-gradient-to-r from-brand-red to-brand-yellow;
+  }
+
+  .hover-lift {
+    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+}
