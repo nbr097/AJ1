@@ -45,36 +45,6 @@
   /* Gray 800 */
 }
 
-/* Modern Theme (Bold/Clean) */
-[data-theme='modern'] {
-  --color-brand-red: #2563EB;
-  /* Royal Blue */
-  --color-brand-yellow: #000000;
-  /* Black Accent */
-  --color-brand-white: #FFFFFF;
-  /* Pure White */
-  --color-brand-dark: #000000;
-  /* Pure Black */
-  --color-brand-gray: #F3F4F6;
-  /* Cool Gray */
-  --font-sans: "Outfit", sans-serif;
-}
-
-/* Soft Theme (Friendly/Approachable) */
-[data-theme='soft'] {
-  --color-brand-red: #FF6B6B;
-  /* Soft Coral */
-  --color-brand-yellow: #FFD93D;
-  /* Sunshine Yellow */
-  --color-brand-white: #FFF9F5;
-  /* Warm White */
-  --color-brand-dark: #2D3436;
-  /* Soft Charcoal */
-  --color-brand-gray: #F0F3F5;
-  /* Cloud Gray */
-  --font-sans: "Nunito", sans-serif;
-}
-
 @layer base {
   body {
     @apply bg-brand-white text-brand-dark font-sans antialiased;
