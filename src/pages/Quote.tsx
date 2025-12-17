@@ -39,14 +39,14 @@ const LocationAutocomplete = ({
     error?: string;
     icon: any;
 }) => {
-    const [query, setQuery] = useState(value);
+    const [query, setQuery] = useState(value || '');
     const [showSuggestions, setShowSuggestions] = useState(false);
     const { search } = usePostcode();
     const suggestions = search(query);
 
     // Update query when value changes externally (e.g. form reset)
     useEffect(() => {
-        setQuery(value);
+        setQuery(value || '');
     }, [value]);
 
     const handleSelect = (item: PostcodeEntry) => {
@@ -106,7 +106,13 @@ const QuotePageContent = () => {
     const { register, handleSubmit, watch, setValue, trigger, formState: { errors } } = useForm<FormData>({
         defaultValues: {
             moveType: 'house',
-            inventory: {}
+            inventory: {},
+            pickup: '',
+            dropoff: '',
+            date: '',
+            name: '',
+            email: '',
+            phone: ''
         }
     });
 
