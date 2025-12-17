@@ -8,7 +8,7 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "dev:cloud": "wrangler pages dev -- npm run dev"
+    "dev:cloud": "wrangler pages dev --port 8788 -- npm run dev"
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
@@ -37,6 +37,7 @@
     "tailwindcss": "^4.1.17",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
-    "vite": "^7.2.4"
+    "vite": "^7.2.4",
+    "wrangler": "^4.55.0"
   }
 }
