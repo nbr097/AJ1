@@ -3,9 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { Home, Building, Briefcase, ArrowRight, ArrowLeft, MapPin, Check, Truck, Loader2, AlertCircle } from 'lucide-react';
 import { cn } from '../lib/utils';
-import emailjs from '@emailjs/browser';
+// import emailjs from '@emailjs/browser'; // Removed in favor of Resend
 import { usePostcode, type PostcodeEntry } from '../hooks/usePostcode';
 import { ErrorBoundary } from '../components/ErrorBoundary';
+import { TermsModal } from '../components/TermsModal';
 
 type FormData = {
     moveType: 'house' | 'apartment' | 'office';
@@ -151,60 +152,57 @@ const QuotePageContent = () => {
 
     const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 0));
 
+    const [showTerms, setShowTerms] = useState(false);
+    const [pendingData, setPendingData] = useState<FormData | null>(null);
+
     const onSubmit = async (data: FormData) => {
+        setPendingData(data);
+        setShowTerms(true);
+    };
+
+    const handleTermsAgreed = async () => {
+        setShowTerms(false);
+        if (!pendingData) return;
+
         setIsSubmitting(true);
         setSubmitStatus('idle');
 
         try {
             // Format inventory for email
-            const inventoryList = Object.entries(data.inventory)
+            const inventoryList = Object.entries(pendingData.inventory)
                 .filter(([_, qty]) => qty > 0)
                 .map(([item, qty]) => `- ${item}: ${qty}`)
                 .join('\n');
 
-            // Create a detailed message body
-            const messageBody = `
-New Quote Request Details:
-------------------------
-Name: ${data.name}
-Email: ${data.email}
-Phone: ${data.phone}
-
-Move Details:
-------------
-Type: ${data.moveType}
-Date: ${data.date}
-Pickup: ${data.pickup}
-Dropoff: ${data.dropoff}
-
-Inventory:
----------
-${inventoryList || 'No specific items selected'}
-            `.trim();
-
-            await emailjs.send(
-                'service_qgqtcby',
-                'template_0hkedp8',
-                {
-                    to_name: 'Nic',
-                    from_name: data.name,
-                    from_email: data.email,
-                    phone: data.phone,
-                    move_type: data.moveType,
-                    pickup: data.pickup,
-                    dropoff: data.dropoff,
-                    date: data.date,
-                    inventory: inventoryList || 'No items selected',
-                    message: messageBody
+            const response = await fetch('/api/send-quote', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
                 },
-                'q9lLg2BWfdlCarKX-'
-            );
+                body: JSON.stringify({
+                    ...pendingData,
+                    inventory: inventoryList || 'No items selected',
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to send quote');
+            }
+
+            const contentType = response.headers.get("content-type");
+            if (!contentType || !contentType.includes("application/json")) {
+                throw new Error("Invalid response from server");
+            }
+
+            await response.json();
+
             setSubmitStatus('success');
         } catch (error) {
             console.error('Email error:', error);
             setSubmitStatus('error');
         } finally {
             setIsSubmitting(false);
+            setPendingData(null);
         }
     };
 
@@ -516,8 +514,13 @@ ${inventoryList || 'No specific items selected'}
                         </div>
                     </form>
                 </div>
+                <TermsModal
+                    isOpen={showTerms}
+                    onClose={() => setShowTerms(false)}
+                    onAgree={handleTermsAgreed}
+                />
             </div>
-        </div>
+        </div >
     );
 };
 
