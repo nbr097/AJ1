@@ -102,6 +102,7 @@ const QuotePageContent = () => {
     const [currentStep, setCurrentStep] = useState(0);
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+    const [submitError, setSubmitError] = useState<string | null>(null);
 
     const { register, handleSubmit, watch, setValue, trigger, formState: { errors } } = useForm<FormData>({
         defaultValues: {
@@ -191,6 +192,10 @@ const QuotePageContent = () => {
                 }),
             });
 
+            if (response.status === 404) {
+                throw new Error('Backend function not found. Are you running "npm run dev:cloud"?');
+            }
+
             if (!response.ok) {
                 throw new Error('Failed to send quote');
             }
@@ -203,9 +208,10 @@ const QuotePageContent = () => {
             await response.json();
 
             setSubmitStatus('success');
-        } catch (error) {
+        } catch (error: any) {
             console.error('Email error:', error);
             setSubmitStatus('error');
+            setSubmitError(error.message);
         } finally {
             setIsSubmitting(false);
             setPendingData(null);
@@ -471,7 +477,7 @@ const QuotePageContent = () => {
                                     {submitStatus === 'error' && (
                                         <div className="p-4 bg-red-50 text-red-600 rounded-lg flex items-center gap-2">
                                             <AlertCircle className="w-5 h-5" />
-                                            <span>Something went wrong. Please try again or call us directly.</span>
+                                            <span>{submitError || "Something went wrong. Please try again or call us directly."}</span>
                                         </div>
                                     )}
                                 </motion.div>
