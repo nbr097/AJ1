@@ -197,7 +197,14 @@ const QuotePageContent = () => {
             }
 
             if (!response.ok) {
-                throw new Error('Failed to send quote');
+                let errorMessage = 'Failed to send quote';
+                try {
+                    const errorData = await response.json() as any;
+                    errorMessage = errorData.error || errorData.message || errorMessage;
+                } catch (e) {
+                    console.error("Failed to parse error response", e);
+                }
+                throw new Error(errorMessage);
             }
 
             const contentType = response.headers.get("content-type");
