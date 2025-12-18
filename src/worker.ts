@@ -5,7 +5,7 @@ interface Env {
 }
 
 export default {
-    async fetch(request: Request, env: Env, ctx: any): Promise<Response> {
+    async fetch(request: Request, env: Env, _ctx: any): Promise<Response> {
         const url = new URL(request.url);
 
         // API Route for sending quote
