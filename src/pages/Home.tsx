@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 import { ArrowRight, Truck, Package, Home, Star, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Reviews } from '../components/Reviews';
+import { FleetGallery } from '../components/FleetGallery';
 
 const fadeIn = {
     initial: { opacity: 0, y: 20 },
@@ -175,6 +176,9 @@ export const HomePage = () => {
                     </div>
                 </div>
             </section>
+
+            {/* Fleet Gallery */}
+            <FleetGallery />
 
             {/* Reviews Section */}
             <Reviews />
