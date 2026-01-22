@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { TERMS_AND_CONDITIONS, SETTLEMENT_TERMS, HOLIDAY_TERMS, AFTER_HOURS_TERMS } from '../data/terms';
 import '../index.css'; // Ensure styles are available
 
