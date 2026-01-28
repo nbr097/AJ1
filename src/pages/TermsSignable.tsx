@@ -70,7 +70,7 @@ export const TermsSignablePage = () => {
         <div className="container mx-auto px-4 py-8 max-w-4xl">
             <h1 className="text-3xl font-bold mb-6 text-gray-800">Terms & Conditions</h1>
 
-            <div className="bg-white rounded-lg shadow-lg p-6 mb-8 max-h-[600px] overflow-y-auto border border-gray-200">
+            <div className="bg-white rounded-lg shadow-lg p-6 mb-8 border border-gray-200">
                 {TERMS_AND_CONDITIONS.map((section, idx) => (
                     <div key={idx} className="mb-6">
                         <h2 className="text-xl font-semibold mb-3 text-red-600">{section.title}</h2>
