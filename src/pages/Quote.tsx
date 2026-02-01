@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useForm } from 'react-hook-form';
-import { Home, Building, Briefcase, ArrowRight, ArrowLeft, MapPin, Check, Truck, Loader2, AlertCircle } from 'lucide-react';
+import { Home, Building, Briefcase, ArrowRight, ArrowLeft, MapPin, Check, Truck, Loader2, AlertCircle, Plus, Trash2 } from 'lucide-react';
 import { cn } from '../lib/utils';
 // import emailjs from '@emailjs/browser'; // Removed in favor of Resend
 import { usePostcode, type PostcodeEntry } from '../hooks/usePostcode';
@@ -14,6 +14,7 @@ type FormData = {
     dropoff: string;
     date: string;
     inventory: Record<string, number>;
+    otherItems: { name: string; quantity: number }[];
     name: string;
     email: string;
     phone: string;
@@ -108,6 +109,7 @@ const QuotePageContent = () => {
         defaultValues: {
             moveType: 'house',
             inventory: {},
+            otherItems: [],
             pickup: '',
             dropoff: '',
             date: '',
@@ -134,7 +136,8 @@ const QuotePageContent = () => {
                 break;
             case 2: // Inventory
                 const hasItems = Object.values(inventory || {}).some(qty => qty > 0);
-                if (!hasItems) {
+                const hasOtherItems = (watch('otherItems') || []).length > 0;
+                if (!hasItems && !hasOtherItems) {
                     alert('Please select at least one item to move.');
                     return false;
                 }
@@ -176,10 +179,19 @@ const QuotePageContent = () => {
 
         try {
             // Format inventory for email
-            const inventoryList = Object.entries(pendingData.inventory)
+            const standardItems = Object.entries(pendingData.inventory)
                 .filter(([_, qty]) => qty > 0)
                 .map(([item, qty]) => `- ${item}: ${qty}`)
                 .join('\n');
+
+            const otherItemsList = (pendingData.otherItems || [])
+                .map(item => `- ${item.name}: ${item.quantity}`)
+                .join('\n');
+
+            const fullInventory = [
+                standardItems,
+                otherItemsList ? '\nOther Items:\n' + otherItemsList : ''
+            ].filter(Boolean).join('\n');
 
             const response = await fetch('/api/send-quote', {
                 method: 'POST',
@@ -188,7 +200,8 @@ const QuotePageContent = () => {
                 },
                 body: JSON.stringify({
                     ...pendingData,
-                    inventory: inventoryList || 'No items selected',
+                    ...pendingData,
+                    inventory: fullInventory || 'No items selected',
                 }),
             });
 
@@ -366,64 +379,189 @@ const QuotePageContent = () => {
                                     initial={{ opacity: 0, x: 20 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     exit={{ opacity: 0, x: -20 }}
-                                    className="space-y-6"
+                                    className="space-y-8"
                                 >
-                                    <h2 className="text-3xl font-black text-brand-dark mb-8">What are we moving?</h2>
-                                    <p className="text-gray-500 mb-4">Select the main items</p>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        {[
-                                            'Bed', 'Sofa', 'Fridge', 'Washing Machine', 'Dining Table', 'Wardrobe', 'Dryer',
-                                            'TV', 'TV Unit', 'Dresser', 'Shelving', 'Pool Table', 'Piano',
-                                            'Buffet', 'Bookcase', 'Entertainment Unit', 'Outdoor Setting', 'Boxes (10+)'
-                                        ].map((item) => {
-                                            const quantity = (inventory as Record<string, number>)?.[item] || 0;
-                                            return (
-                                                <div
-                                                    key={item}
-                                                    className={cn(
-                                                        "flex items-center justify-between p-4 rounded-lg border transition-all",
-                                                        quantity > 0
-                                                            ? "border-brand-red bg-brand-red/5 shadow-sm"
-                                                            : "border-gray-100 hover:bg-gray-50"
-                                                    )}
-                                                >
-                                                    <span className={cn("font-medium", quantity > 0 ? "text-brand-dark" : "text-gray-600")}>
-                                                        {item}
-                                                    </span>
-                                                    <div className="flex items-center gap-3">
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => {
-                                                                const current = (inventory as Record<string, number>)?.[item] || 0;
-                                                                if (current > 0) {
-                                                                    setValue('inventory', { ...inventory as Record<string, number>, [item]: current - 1 });
-                                                                }
-                                                            }}
+                                    <div>
+                                        <h2 className="text-3xl font-black text-brand-dark mb-2">What are we moving?</h2>
+                                        <p className="text-gray-500">Select items by room</p>
+                                    </div>
+
+                                    {[
+                                        {
+                                            name: 'Bedroom',
+                                            items: ['Bed (King/Queen)', 'Bed (Double/Single)', 'Mattress Only', 'Bedside Table', 'Tallboy/Chest of Drawers', 'Wardrobe', 'Dresser', 'Mirror']
+                                        },
+                                        {
+                                            name: 'Living Room',
+                                            items: ['Sofa (3 Seater)', 'Sofa (2 Seater)', 'Armchair', 'Recliner', 'Coffee Table', 'TV Unit', 'TV', 'Bookcase', 'Rug']
+                                        },
+                                        {
+                                            name: 'Dining & Kitchen',
+                                            items: ['Dining Table', 'Dining Chair', 'Buffet/Sideboard', 'Bar Stool', 'Microwave', 'Fridge (Single Door)', 'Fridge (French Door)']
+                                        },
+                                        {
+                                            name: 'Laundry & Appliances',
+                                            items: ['Washing Machine (Front Loader)', 'Washing Machine (Top Loader)', 'Dryer', 'Vacuum Cleaner', 'Ironing Board']
+                                        },
+                                        {
+                                            name: 'Office & Study',
+                                            items: ['Desk', 'Office Chair', 'Filing Cabinet', 'Computer/Monitor', 'Printer']
+                                        },
+                                        {
+                                            name: 'Outdoor & Misc',
+                                            items: ['Outdoor Table', 'Outdoor Chair', 'BBQ', 'Bicycle', 'Gym Equipment', 'Lawn Mower', 'Whipper Snipper', 'Wheelbarrow', 'Garden Tools (Bundle)', 'Tool Box', 'Workbench', 'Boxes (Standard)', 'Boxes (Large)']
+                                        }
+                                    ].map((category) => (
+                                        <div key={category.name} className="space-y-4">
+                                            <h3 className="text-xl font-bold text-brand-red border-b border-gray-100 pb-2">{category.name}</h3>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                {category.items.map((item) => {
+                                                    const quantity = (inventory as Record<string, number>)?.[item] || 0;
+                                                    return (
+                                                        <div
+                                                            key={item}
                                                             className={cn(
-                                                                "w-8 h-8 rounded-full flex items-center justify-center transition-colors",
-                                                                quantity > 0 ? "bg-white text-brand-red border border-brand-red hover:bg-brand-red hover:text-white" : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                                                "flex items-center justify-between p-4 rounded-lg border transition-all",
+                                                                quantity > 0
+                                                                    ? "border-brand-red bg-brand-red/5 shadow-sm"
+                                                                    : "border-gray-100 hover:bg-gray-50"
                                                             )}
-                                                            disabled={quantity === 0}
                                                         >
-                                                            -
-                                                        </button>
-                                                        <span className={cn("w-6 text-center font-bold", quantity > 0 ? "text-brand-red" : "text-gray-300")}>
-                                                            {quantity}
-                                                        </span>
-                                                        <button
-                                                            type="button"
-                                                            onClick={() => {
-                                                                const current = (inventory as Record<string, number>)?.[item] || 0;
-                                                                setValue('inventory', { ...inventory as Record<string, number>, [item]: current + 1 });
+                                                            <span className={cn("font-medium text-sm", quantity > 0 ? "text-brand-dark" : "text-gray-600")}>
+                                                                {item}
+                                                            </span>
+                                                            <div className="flex items-center gap-3">
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => {
+                                                                        const current = (inventory as Record<string, number>)?.[item] || 0;
+                                                                        if (current > 0) {
+                                                                            setValue('inventory', { ...inventory as Record<string, number>, [item]: current - 1 });
+                                                                        }
+                                                                    }}
+                                                                    className={cn(
+                                                                        "w-8 h-8 rounded-full flex items-center justify-center transition-colors flex-shrink-0",
+                                                                        quantity > 0 ? "bg-white text-brand-red border border-brand-red hover:bg-brand-red hover:text-white" : "bg-gray-100 text-gray-400 cursor-not-allowed"
+                                                                    )}
+                                                                    disabled={quantity === 0}
+                                                                >
+                                                                    -
+                                                                </button>
+                                                                <input
+                                                                    type="number"
+                                                                    min="0"
+                                                                    value={quantity}
+                                                                    onChange={(e) => {
+                                                                        const val = parseInt(e.target.value) || 0;
+                                                                        setValue('inventory', { ...inventory as Record<string, number>, [item]: Math.max(0, val) });
+                                                                    }}
+                                                                    className={cn(
+                                                                        "w-12 text-center font-bold bg-transparent border-b border-gray-200 focus:border-brand-red outline-none transition-all appearance-none", // appearance-none handles some styling, but might need standard CSS for spinners
+                                                                        quantity > 0 ? "text-brand-dark" : "text-gray-300"
+                                                                    )}
+                                                                />
+                                                                <button
+                                                                    type="button"
+                                                                    onClick={() => {
+                                                                        const current = (inventory as Record<string, number>)?.[item] || 0;
+                                                                        setValue('inventory', { ...inventory as Record<string, number>, [item]: current + 1 });
+                                                                    }}
+                                                                    className="w-8 h-8 rounded-full bg-brand-yellow text-brand-dark flex items-center justify-center hover:bg-yellow-400 transition-colors font-bold flex-shrink-0"
+                                                                >
+                                                                    +
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    ))}
+                                    {/* Other Items Section */}
+                                    <div className="pt-8 border-t border-gray-100">
+                                        <h3 className="text-xl font-bold text-brand-dark mb-4">Other Items</h3>
+                                        <div className="space-y-4">
+                                            {(watch('otherItems') || []).map((item, index) => (
+                                                <div key={index} className="flex gap-4 items-start bg-gray-50 p-4 rounded-lg">
+                                                    <div className="flex-grow space-y-2">
+                                                        <label className="text-sm font-medium text-gray-700">Item Name</label>
+                                                        <input
+                                                            value={item.name}
+                                                            onChange={(e) => {
+                                                                const newItems = [...watch('otherItems')];
+                                                                newItems[index].name = e.target.value;
+                                                                setValue('otherItems', newItems);
                                                             }}
-                                                            className="w-8 h-8 rounded-full bg-brand-yellow text-brand-dark flex items-center justify-center hover:bg-yellow-400 transition-colors font-bold"
-                                                        >
-                                                            +
-                                                        </button>
+                                                            className="w-full px-3 py-2 rounded border border-gray-200 focus:border-brand-yellow outline-none"
+                                                            placeholder="e.g. Grandfather Clock"
+                                                        />
                                                     </div>
+                                                    <div className="w-24 space-y-2">
+                                                        <label className="text-sm font-medium text-gray-700">Qty</label>
+                                                        <div className="flex items-center gap-2">
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => {
+                                                                    const newItems = [...watch('otherItems')];
+                                                                    if (newItems[index].quantity > 1) {
+                                                                        newItems[index].quantity--;
+                                                                        setValue('otherItems', newItems);
+                                                                    }
+                                                                }}
+                                                                className="w-8 h-8 rounded bg-gray-200 flex items-center justify-center hover:bg-gray-300 transition-colors"
+                                                            >
+                                                                -
+                                                            </button>
+                                                            <input
+                                                                type="number"
+                                                                min="1"
+                                                                value={item.quantity}
+                                                                onChange={(e) => {
+                                                                    const val = parseInt(e.target.value) || 1;
+                                                                    const newItems = [...watch('otherItems')];
+                                                                    newItems[index].quantity = Math.max(1, val);
+                                                                    setValue('otherItems', newItems);
+                                                                }}
+                                                                className="w-12 text-center font-bold border rounded py-1 focus:border-brand-yellow outline-none"
+                                                            />
+                                                            <button
+                                                                type="button"
+                                                                onClick={() => {
+                                                                    const newItems = [...watch('otherItems')];
+                                                                    newItems[index].quantity++;
+                                                                    setValue('otherItems', newItems);
+                                                                }}
+                                                                className="w-8 h-8 rounded bg-brand-yellow flex items-center justify-center hover:bg-yellow-400 transition-colors"
+                                                            >
+                                                                +
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => {
+                                                            const newItems = watch('otherItems').filter((_, i) => i !== index);
+                                                            setValue('otherItems', newItems);
+                                                        }}
+                                                        className="mt-7 text-red-500 hover:text-red-700 p-2"
+                                                    >
+                                                        <Trash2 className="w-5 h-5" />
+                                                    </button>
                                                 </div>
-                                            );
-                                        })}
+                                            ))}
+
+                                            <button
+                                                type="button"
+                                                onClick={() => {
+                                                    const current = watch('otherItems') || [];
+                                                    setValue('otherItems', [...current, { name: '', quantity: 1 }]);
+                                                }}
+                                                className="flex items-center gap-2 text-brand-red font-bold hover:text-red-700 transition-colors"
+                                            >
+                                                <Plus className="w-5 h-5" />
+                                                Add Another Item
+                                            </button>
+                                        </div>
                                     </div>
                                 </motion.div>
                             )}

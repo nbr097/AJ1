@@ -22,7 +22,20 @@ export const HomePage = () => {
     return (
         <div className="overflow-hidden">
             {/* Hero Section */}
-            <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-brand-white text-brand-dark">
+            <section className="relative min-h-[90vh] flex flex-col items-center justify-start overflow-hidden bg-brand-white text-brand-dark pt-0">
+                {/* Full Width Banner */}
+                <div className="w-full bg-brand-yellow py-4 md:py-6 relative z-20 flex justify-center items-center shadow-md px-2">
+                    <div className="text-xl md:text-3xl lg:text-4xl font-bold tracking-wide flex flex-wrap justify-center items-center gap-x-2 gap-y-1 uppercase text-center leading-none">
+                        <span className="text-black font-black">AJ</span>
+                        <span
+                            className="text-brand-red font-black px-1 relative tracking-widest text-stroke-brand"
+                        >
+                            Smart Move
+                        </span>
+                        <span className="text-black font-black">Removals & Storage</span>
+                    </div>
+                </div>
+
                 {/* Abstract Background Shapes */}
                 <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     <div className="absolute top-0 left-0 w-full h-full bg-dot-pattern-red opacity-30" />
@@ -54,17 +67,14 @@ export const HomePage = () => {
                     />
                 </div>
 
-                <div className="container mx-auto px-4 md:px-6 relative z-10 grid md:grid-cols-2 gap-12 items-center">
+
+                <div className="container mx-auto px-4 md:px-6 relative z-10 grid md:grid-cols-2 gap-12 items-center flex-grow py-12">
                     <motion.div
                         initial="initial"
                         animate="animate"
                         variants={stagger}
                         className="space-y-6"
                     >
-                        <motion.div variants={fadeIn} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white shadow-sm border border-brand-red/10 text-brand-red font-bold text-sm">
-                            <Star className="w-4 h-4 fill-brand-red" />
-                            #1 Rated Removalist in Caboolture
-                        </motion.div>
                         <motion.h1 variants={fadeIn} className="text-5xl md:text-7xl font-black leading-tight text-brand-dark">
                             The <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-red via-orange-500 to-brand-yellow">Smart</span> Move <br />
                             For Your Next Chapter.
@@ -77,7 +87,7 @@ export const HomePage = () => {
                                 to="/quote"
                                 className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-gradient-to-r from-brand-red to-orange-600 hover:from-red-600 hover:to-orange-700 rounded-full transition-all transform hover:scale-105 shadow-lg shadow-brand-red/25"
                             >
-                                Get a Free Quote
+                                Calculate your move!
                                 <ArrowRight className="ml-2 w-5 h-5" />
                             </Link>
                             <a
@@ -100,6 +110,7 @@ export const HomePage = () => {
                             <div className="aspect-[4/3] bg-gray-50 rounded-2xl overflow-hidden flex items-center justify-center relative">
                                 <img
                                     src="/images/hero-truck.jpg"
+                                    style={{ objectPosition: "left" }}
                                     alt="AJ Smart Move Truck"
                                     className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-700"
                                 />
@@ -115,6 +126,11 @@ export const HomePage = () => {
                                     </div>
                                     <p className="text-white font-bold text-xl">Modern Fleet & Expert Team</p>
                                 </div>
+                            </div>
+                        </div>
+                        <div className="flex justify-center mt-8">
+                            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-brand-red font-bold text-sm border border-brand-red/20 shadow-lg animate-bounce-subtle">
+                                <span className="text-brand-red text-lg">★</span> #1 Rated Removalist in Caboolture
                             </div>
                         </div>
                         {/* Floating Elements */}
@@ -191,9 +207,9 @@ export const HomePage = () => {
                     <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">Get a free, no-obligation quote in minutes. Our team is ready to help you plan your perfect move.</p>
                     <Link
                         to="/quote"
-                        className="inline-flex items-center justify-center px-10 py-5 text-xl font-bold text-brand-red bg-white rounded-full transition-all transform hover:scale-105 shadow-2xl"
+                        className="inline-flex items-center justify-center px-8 py-4 bg-brand-red text-white font-bold text-lg rounded-full shadow-lg hover:bg-red-600 hover:scale-105 transition-all w-full md:w-auto"
                     >
-                        Get Started Now
+                        Calculate Your Move <ArrowRight className="ml-2 w-5 h-5" />
                     </Link>
                 </div>
             </section>

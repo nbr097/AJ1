@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Warehouse, ShieldCheck, Container, Car, Clock, MapPin } from 'lucide-react';
+import { Warehouse, ShieldCheck, Container, Car, Clock, MapPin, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export const StoragePage = () => {
@@ -28,7 +28,7 @@ export const StoragePage = () => {
                     >
                         <div>
                             <h2 className="text-2xl font-bold text-brand-dark mb-6 flex items-center gap-3">
-                                <ShieldCheck className="w-6 h-6 text-brand-yellow" />
+                                <ShieldCheck className="w-6 h-6 text-brand-red" />
                                 Why Store With Us?
                             </h2>
                             <ul className="space-y-4 text-gray-600">
@@ -104,17 +104,20 @@ export const StoragePage = () => {
                     transition={{ duration: 0.6, delay: 0.6 }}
                     className="text-center"
                 >
-                    <div className="bg-brand-yellow/10 rounded-2xl p-8 md:p-12 border border-brand-yellow/20 max-w-3xl mx-auto">
+                    <div className="bg-brand-yellow rounded-2xl p-8 md:p-12 border border-brand-yellow/20 max-w-3xl mx-auto">
                         <h3 className="text-2xl font-bold text-brand-dark mb-4">Need a Storage Quote?</h3>
                         <p className="text-gray-600 mb-8">
                             Contact us today to discuss your storage requirements and get a tailored price.
                         </p>
                         <div className="flex flex-col md:flex-row items-center justify-center gap-4">
-                            <a href="tel:0426464064" className="w-full md:w-auto px-8 py-3 bg-white text-brand-dark font-bold rounded-full border-2 border-brand-dark hover:bg-brand-gray transition-colors">
+                            <a href="tel:0426464064" className="w-full md:w-auto px-8 py-3 bg-brand-red text-white font-bold rounded-full border-2 hover:bg-brand-yellow hover:text-brand-dark transition-colors">
                                 Call 0426 464 064
                             </a>
-                            <Link to="/quote" className="w-full md:w-auto px-8 py-3 bg-brand-red text-white font-bold rounded-full hover:bg-red-600 transition-colors shadow-lg">
-                                Get a Quote Online
+                            <Link
+                                to="/quote"
+                                className="inline-flex items-center justify-center px-8 py-4 bg-brand-yellow text-brand-dark font-bold text-lg rounded-full shadow-lg hover:bg-yellow-400 hover:scale-105 transition-all"
+                            >
+                                Calculate Your Move <ArrowRight className="ml-2 w-5 h-5" />
                             </Link>
                         </div>
                     </div>

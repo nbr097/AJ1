@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Lightbulb, CheckCircle, Calendar, Truck, Home, FileText } from 'lucide-react';
+import { Lightbulb, CheckCircle, Calendar, Truck, Home, FileText, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export const TipsPage = () => {
     return (
@@ -11,8 +12,8 @@ export const TipsPage = () => {
                     transition={{ duration: 0.6 }}
                     className="text-center mb-16"
                 >
-                    <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-yellow/10 rounded-2xl mb-6">
-                        <Lightbulb className="w-8 h-8 text-brand-yellow" />
+                    <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-yellow rounded-2xl mb-6">
+                        <Lightbulb className="w-8 h-8 text-brand-dark/50" />
                     </div>
                     <h1 className="text-4xl md:text-5xl font-black text-brand-dark mb-4">Moving Tips</h1>
                     <p className="text-xl text-gray-600">Expert advice to make your move smooth and stress-free.</p>
@@ -43,7 +44,7 @@ export const TipsPage = () => {
                                 "Back up important computer files."
                             ].map((tip, index) => (
                                 <li key={index} className="flex items-start gap-3 text-gray-600 leading-relaxed">
-                                    <CheckCircle className="w-5 h-5 text-brand-yellow flex-shrink-0 mt-0.5" />
+                                    <CheckCircle className="w-5 h-5 text-brand-red flex-shrink-0 mt-0.5" />
                                     <span>{tip}</span>
                                 </li>
                             ))}
@@ -52,8 +53,8 @@ export const TipsPage = () => {
 
                     <section className="pt-8 border-t border-gray-100">
                         <div className="flex items-center gap-4 mb-6">
-                            <div className="w-10 h-10 bg-brand-yellow/10 rounded-lg flex items-center justify-center">
-                                <Home className="w-5 h-5 text-brand-yellow" />
+                            <div className="w-10 h-10 bg-brand-red/10 rounded-lg flex items-center justify-center">
+                                <Home className="w-5 h-5 text-brand-red" />
                             </div>
                             <h2 className="text-2xl font-bold text-brand-dark">Getting Ready for the New Home</h2>
                         </div>
@@ -73,8 +74,8 @@ export const TipsPage = () => {
 
                     <section className="pt-8 border-t border-gray-100">
                         <div className="flex items-center gap-4 mb-6">
-                            <div className="w-10 h-10 bg-brand-dark/5 rounded-lg flex items-center justify-center">
-                                <FileText className="w-5 h-5 text-brand-dark" />
+                            <div className="w-10 h-10 bg-brand-red/10 rounded-lg flex items-center justify-center">
+                                <FileText className="w-5 h-5 text-brand-red" />
                             </div>
                             <h2 className="text-2xl font-bold text-brand-dark">Change of Address Checklist</h2>
                         </div>
@@ -91,24 +92,27 @@ export const TipsPage = () => {
                                 "Estate Agents"
                             ].map((item, index) => (
                                 <div key={index} className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
-                                    <div className="w-2 h-2 rounded-full bg-brand-yellow" />
+                                    <div className="w-2 h-2 rounded-full bg-brand-dark" />
                                     <span className="font-medium text-gray-700">{item}</span>
                                 </div>
                             ))}
                         </div>
                     </section>
 
-                    <div className="bg-brand-red/5 p-6 rounded-xl border border-brand-red/10 mt-8">
+                    <div className="bg-brand-red p-6 rounded-xl border border-brand-dark mt-8">
                         <div className="flex items-start gap-4">
-                            <Truck className="w-6 h-6 text-brand-red flex-shrink-0 mt-1" />
+                            <Truck className="w-6 h-6 text-white flex-shrink-0 mt-1" />
                             <div>
-                                <h3 className="font-bold text-brand-dark mb-2">Ready to make your move?</h3>
-                                <p className="text-gray-600 mb-4">
+                                <h3 className="font-bold text-white mb-2">Ready to make your move?</h3>
+                                <p className="text-gray-200 mb-4">
                                     Our team at AJ Smart Move is here to help with every step of the process.
                                 </p>
-                                <a href="/quote" className="inline-flex items-center justify-center px-6 py-2 text-sm font-bold text-white bg-brand-red hover:bg-red-600 rounded-full transition-all">
-                                    Get a Free Quote
-                                </a>
+                                <Link
+                                    to="/quote"
+                                    className="inline-flex items-center justify-center px-8 py-4 bg-brand-yellow text-brand-dark font-bold text-lg rounded-full shadow-lg hover:bg-yellow-400 hover:scale-105 transition-all"
+                                >
+                                    Calculate Your Move <ArrowRight className="ml-2 w-5 h-5" />
+                                </Link>
                             </div>
                         </div>
                     </div>

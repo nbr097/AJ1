@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --color-brand-red: #EF4444;
-  --color-brand-yellow: #FACC15;
+  --color-brand-red: #ee1820;
+  --color-brand-yellow: #ffff01;
   --color-brand-white: #FFFFFF;
   --color-brand-dark: #111827;
   --color-brand-gray: #F3F4F6;
@@ -15,20 +15,6 @@
   --color-brand-dark: var(--color-brand-dark);
   --color-brand-gray: var(--color-brand-gray);
   --font-sans: Montserrat, sans-serif;
-}
-
-/* Ocean Theme (Blue/Teal) */
-[data-theme='ocean'] {
-  --color-brand-red: #0EA5E9;
-  /* Sky Blue 500 */
-  --color-brand-yellow: #F59E0B;
-  /* Amber 500 */
-  --color-brand-white: #F8FAFC;
-  /* Slate 50 */
-  --color-brand-dark: #0F172A;
-  /* Slate 900 */
-  --color-brand-gray: #E2E8F0;
-  /* Slate 200 */
 }
 
 /* Neon Theme (Dark Mode - Purple/Green) */
@@ -58,7 +44,7 @@
   }
 
   .bg-dot-pattern-red {
-    background-image: radial-gradient(rgba(239, 68, 68, 0.1) 1px, transparent 1px);
+    background-image: radial-gradient(rgba(238, 24, 32, 0.1) 1px, transparent 1px);
     background-size: 24px 24px;
   }
 
@@ -68,5 +54,28 @@
 
   .hover-lift {
     @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
+  }
+
+  .text-stroke-brand {
+    -webkit-text-stroke: 4px white;
+    paint-order: stroke fill;
+  }
+
+  @media (min-width: 768px) {
+    .text-stroke-brand {
+      -webkit-text-stroke: 6px white;
+    }
+  }
+
+  /* Remove arrow/spinners from number inputs */
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type=number] {
+    -moz-appearance: textfield;
+    appearance: textfield;
   }
 }

@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Phone, Menu, X, Facebook, Instagram } from 'lucide-react';
+import miniLogo from '../assets/logo/minilogo.png';
+
 
 export const Layout = ({ children }: { children: React.ReactNode }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,39 +13,44 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
             <header className="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100 shadow-sm">
                 <div className="container mx-auto px-4 md:px-6 h-20 flex items-center justify-between">
                     {/* Logo */}
-                    <Link to="/" className="flex items-center gap-2">
-                        <div className="w-10 h-10 bg-brand-red rounded-lg flex items-center justify-center text-white font-bold text-xl">
-                            AJ
+                    <Link to="/" className="flex items-start gap-2 pt-1">
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-xl flex-shrink-0">
+                            <img src={miniLogo} alt='logo' />
                         </div>
-                        <span className="text-xl font-bold tracking-tight text-brand-dark">
-                            Smart<span className="text-brand-red">Move</span>
-                        </span>
+                        <div className="flex flex-col leading-none -mt-1">
+                            <span className="text-2xl font-black tracking-tight text-brand-red uppercase">
+                                SMART <span className="text-brand-red">MOVE</span>
+                            </span>
+                            <span className="text-[10px] sm:text-xs uppercase text-brand-dark font-black tracking-wider">
+                                Removals & Storage
+                            </span>
+                        </div>
                     </Link>
 
                     {/* Desktop Nav */}
-                    <nav className="hidden md:flex items-center gap-8">
+                    <nav className="hidden lg:flex items-center gap-8">
                         <Link to="/" className="text-sm font-medium hover:text-brand-red transition-colors">Home</Link>
                         <a href="/#services" className="text-sm font-medium hover:text-brand-red transition-colors">Services</a>
                         <Link to="/storage" className="text-sm font-medium hover:text-brand-red transition-colors">Storage</Link>
                         <Link to="/tips" className="text-sm font-medium hover:text-brand-red transition-colors">Moving Tips</Link>
                         <a href="/#reviews" className="text-sm font-medium hover:text-brand-red transition-colors">Reviews</a>
-                        <a href="/#contact" className="text-sm font-medium hover:text-brand-red transition-colors">Contact</a>
+                        <a href="mailto:nicho.brown2@gmail.com" className="text-sm font-medium hover:text-brand-red transition-colors">Contact</a>
                     </nav>
 
                     {/* CTA & Mobile Toggle */}
-                    <div className="flex items-center gap-4">
-                        <a href="tel:0426464064" className="hidden md:flex items-center gap-2 text-sm font-semibold text-brand-dark hover:text-brand-red">
+                    <div className="flex items-center gap-8">
+                        <a href="tel:0426464064" className="hidden lg:flex items-center gap-2 text-sm font-semibold text-brand-dark hover:text-brand-red">
                             <Phone className="w-4 h-4" />
                             0426 464 064
                         </a>
                         <Link
                             to="/quote"
-                            className="hidden md:inline-flex items-center justify-center px-6 py-2.5 text-sm font-bold text-brand-dark bg-brand-yellow hover:bg-yellow-400 rounded-full transition-all transform hover:scale-105 shadow-lg shadow-brand-yellow/20"
+                            className="hidden lg:inline-flex items-center justify-center px-6 py-2.5 text-sm font-bold text-brand-dark bg-brand-yellow hover:bg-yellow-400 rounded-full transition-all transform hover:scale-105 shadow-lg shadow-brand-yellow/20"
                         >
-                            Get a Quote
+                            Calculate Your Move
                         </Link>
                         <button
-                            className="md:hidden p-2 text-brand-dark"
+                            className="lg:hidden p-2 text-brand-dark"
                             onClick={() => setIsMenuOpen(!isMenuOpen)}
                         >
                             {isMenuOpen ? <X /> : <Menu />}
@@ -53,7 +60,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
 
                 {/* Mobile Menu */}
                 {isMenuOpen && (
-                    <div className="md:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 p-4 flex flex-col gap-4 shadow-xl animate-in slide-in-from-top-5">
+                    <div className="lg:hidden absolute top-20 left-0 w-full bg-white border-b border-gray-100 p-4 flex flex-col gap-4 shadow-xl animate-in slide-in-from-top-5">
                         <Link to="/" className="text-lg font-medium p-2 hover:bg-gray-50 rounded-lg">Home</Link>
                         <a href="/#services" className="text-lg font-medium p-2 hover:bg-gray-50 rounded-lg">Services</a>
                         <Link to="/storage" className="text-lg font-medium p-2 hover:bg-gray-50 rounded-lg">Storage</Link>
@@ -61,7 +68,7 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                         <a href="/#reviews" className="text-lg font-medium p-2 hover:bg-gray-50 rounded-lg">Reviews</a>
                         <a href="/#contact" className="text-lg font-medium p-2 hover:bg-gray-50 rounded-lg">Contact</a>
                         <Link to="/quote" className="w-full text-center py-3 font-bold bg-brand-yellow rounded-lg text-brand-dark">
-                            Get a Quote
+                            Calculate Your Move
                         </Link>
                     </div>
                 )}
@@ -77,8 +84,17 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                 <div className="container mx-auto px-4 md:px-6 grid grid-cols-1 md:grid-cols-4 gap-8">
                     <div className="space-y-4">
                         <div className="flex items-center gap-2">
-                            <div className="w-8 h-8 bg-brand-red rounded flex items-center justify-center text-white font-bold">AJ</div>
-                            <span className="text-lg font-bold">SmartMove</span>
+                            <div className="w-10 h-10 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                                <img src={miniLogo} alt='logo' />
+                            </div>
+                            <div className="flex flex-col leading-none">
+                                <span className="text-2xl font-black tracking-tight text-brand-red uppercase">
+                                    SMART <span className="text-brand-red">MOVE</span>
+                                </span>
+                                <span className="text-[10px] sm:text-xs uppercase text-white font-black tracking-wider">
+                                    Removals & Storage
+                                </span>
+                            </div>
                         </div>
                         <p className="text-gray-400 text-sm">
                             Professional, reliable, and stress-free removals in Caboolture and beyond.
@@ -97,7 +113,11 @@ export const Layout = ({ children }: { children: React.ReactNode }) => {
                     </div>
 
                     <div>
-                        <h3 className="font-bold mb-4 text-brand-yellow">Contact</h3>
+                        <h3 className="font-bold mb-4 text-brand-yellow">
+                            <a href='mailto:nicho.brown2@gmail.com'>
+                                Contact
+                            </a>
+                        </h3>
                         <ul className="space-y-2 text-sm text-gray-400">
                             <li className="flex items-center gap-2"><Phone className="w-4 h-4" /> 0426 464 064</li>
                             <li>Caboolture, QLD</li>
