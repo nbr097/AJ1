@@ -50,7 +50,7 @@ export const HomePage = () => {
                     <div className="absolute top-0 left-0 w-full h-full bg-dot-pattern-red opacity-30" />
                 </div>
 
-                <div className="container mx-auto px-4 md:px-6 relative z-10 grid md:grid-cols-2 gap-12 items-center flex-grow py-12">
+                <div className="container mx-auto px-4 md:px-6 relative z-10 grid md:grid-cols-2 gap-12 items-center flex-grow pt-12 pb-40">
                     <motion.div
                         initial="initial"
                         animate="animate"
