@@ -90,7 +90,7 @@ export const TermsModal = ({ isOpen, onClose, onAgree }: TermsModalProps) => {
                             <button
                                 type="button"
                                 onClick={onAgree}
-                                className="flex items-center justify-center gap-2 px-8 py-3 bg-brand-red text-white font-bold rounded-lg hover:bg-red-600 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+                                className="flex items-center justify-center gap-2 px-8 py-3 bg-brand-red text-white text-xl font-bold rounded-lg hover:bg-red-600 transition-colors shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
                             >
                                 <Check className="w-5 h-5" />
                                 I Agree & Send Quote

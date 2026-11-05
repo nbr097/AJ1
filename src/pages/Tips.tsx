@@ -15,7 +15,7 @@ export const TipsPage = () => {
                     <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-yellow rounded-2xl mb-6">
                         <Lightbulb className="w-8 h-8 text-brand-dark/50" />
                     </div>
-                    <h1 className="text-4xl md:text-5xl font-black text-brand-dark mb-4">Moving Tips</h1>
+                    <h1 className="text-4xl md:text-5xl font-black tracking-tight text-brand-dark mb-4">Moving Tips</h1>
                     <p className="text-xl text-gray-600">Expert advice to make your move smooth and stress-free.</p>
                 </motion.div>
 
@@ -23,7 +23,7 @@ export const TipsPage = () => {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6, delay: 0.2 }}
-                    className="bg-white rounded-2xl shadow-xl p-8 md:p-12 border border-gray-100 space-y-12"
+                    className="bg-white rounded-2xl shadow-sm p-8 md:p-12 border border-gray-200 space-y-12"
                 >
                     <section>
                         <div className="flex items-center gap-4 mb-6">
@@ -103,13 +103,13 @@ export const TipsPage = () => {
                         <div className="flex items-start gap-4">
                             <Truck className="w-6 h-6 text-white flex-shrink-0 mt-1" />
                             <div>
-                                <h3 className="font-bold text-white mb-2">Ready to make your move?</h3>
+                                <h3 className="text-xl font-bold text-white mb-2">Ready to make your move?</h3>
                                 <p className="text-gray-200 mb-4">
                                     Our team at AJ Smart Move is here to help with every step of the process.
                                 </p>
                                 <Link
                                     to="/quote"
-                                    className="inline-flex items-center justify-center px-8 py-4 bg-brand-yellow text-brand-dark font-bold text-lg rounded-full shadow-lg hover:bg-yellow-400 hover:scale-105 transition-all"
+                                    className="inline-flex items-center justify-center px-8 py-4 bg-brand-yellow text-brand-dark font-bold text-lg rounded-full shadow-lg hover:bg-yellow-400 btn-press"
                                 >
                                     Get a Quote <ArrowRight className="ml-2 w-5 h-5" />
                                 </Link>

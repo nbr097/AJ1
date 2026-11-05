@@ -73,7 +73,7 @@ const LocationAutocomplete = ({
                     onBlur={() => setTimeout(() => setShowSuggestions(false), 200)} // Delay to allow click
                     placeholder="Suburb or Postcode"
                     className={cn(
-                        "w-full pl-10 pr-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all",
+                        "w-full pl-10 pr-4 py-3 rounded-lg border focus:ring-2 outline-none transition-[border-color,box-shadow]",
                         error ? "border-red-500 focus:border-red-500 focus:ring-red-200" : "border-gray-200 focus:border-brand-red focus:ring-brand-red/20"
                     )}
                     autoComplete="off"
@@ -242,18 +242,18 @@ const QuotePageContent = () => {
         return (
             <div className="min-h-screen bg-gray-50 py-12 px-4 md:px-6 flex items-center justify-center">
                 <motion.div
-                    initial={{ opacity: 0, scale: 0.9 }}
+                    initial={{ opacity: 0, scale: 0.95 }}
                     animate={{ opacity: 1, scale: 1 }}
                     className="bg-white rounded-2xl shadow-xl p-12 text-center max-w-lg"
                 >
                     <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                         <Check className="w-10 h-10 text-green-600" />
                     </div>
-                    <h2 className="text-3xl font-black text-brand-dark mb-4">Quote Request Sent!</h2>
+                    <h2 className="text-3xl font-black tracking-tight text-brand-dark mb-4">Quote Request Sent!</h2>
                     <p className="text-gray-600 mb-8">
                         Thanks for reaching out. We've received your details and will get back to you with a quote shortly.
                     </p>
-                    <a href="/" className="inline-flex items-center justify-center px-8 py-3 bg-brand-red text-white font-bold rounded-full hover:bg-red-600 transition-colors">
+                    <a href="/" className="inline-flex items-center justify-center px-8 py-3 bg-brand-red text-white font-bold rounded-full hover:bg-red-600 btn-press">
                         Back to Home
                     </a>
                 </motion.div>
@@ -268,17 +268,17 @@ const QuotePageContent = () => {
                 <div className="mb-8">
                     <div className="flex justify-between mb-2">
                         {steps.map((step, index) => (
-                            <div key={step.id} className={cn("text-sm font-bold transition-colors", index <= currentStep ? "text-brand-red" : "text-gray-300")}>
+                            <div key={step.id} className={cn("text-sm font-bold transition-colors", index <= currentStep ? "text-brand-dark" : "text-gray-500")}>
                                 {step.title}
                             </div>
                         ))}
                     </div>
                     <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                         <motion.div
-                            className="h-full bg-brand-red"
-                            initial={{ width: 0 }}
-                            animate={{ width: `${((currentStep + 1) / steps.length) * 100}%` }}
-                            transition={{ duration: 0.3 }}
+                            className="h-full w-full bg-brand-red origin-left"
+                            initial={{ transform: 'scaleX(0)' }}
+                            animate={{ transform: `scaleX(${(currentStep + 1) / steps.length})` }}
+                            transition={{ duration: 0.3, ease: [0.23, 1, 0.32, 1] }}
                         />
                     </div>
                 </div>
@@ -295,7 +295,7 @@ const QuotePageContent = () => {
                                     exit={{ opacity: 0, x: -20 }}
                                     className="space-y-6"
                                 >
-                                    <h2 className="text-3xl font-black text-brand-dark mb-8">Let's get started.</h2>
+                                    <h2 className="text-3xl font-black tracking-tight text-brand-dark mb-8">Let's get started.</h2>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         {[
                                             { id: 'house', icon: Home, label: 'House' },
@@ -307,9 +307,9 @@ const QuotePageContent = () => {
                                                 type="button"
                                                 onClick={() => setValue('moveType', type.id as any)}
                                                 className={cn(
-                                                    "flex flex-col items-center justify-center p-6 rounded-xl border-2 transition-all",
+                                                    "flex flex-col items-center justify-center p-6 rounded-xl border-2 btn-press",
                                                     moveType === type.id
-                                                        ? "border-brand-red bg-brand-red/5 text-brand-red shadow-lg scale-105"
+                                                        ? "border-brand-red bg-brand-red/5 text-brand-red"
                                                         : "border-gray-100 hover:border-brand-yellow hover:bg-brand-yellow/5 text-gray-500"
                                                 )}
                                             >
@@ -329,7 +329,7 @@ const QuotePageContent = () => {
                                     exit={{ opacity: 0, x: -20 }}
                                     className="space-y-6"
                                 >
-                                    <h2 className="text-3xl font-black text-brand-dark mb-8">Where are we going?</h2>
+                                    <h2 className="text-3xl font-black tracking-tight text-brand-dark mb-8">Where are we going?</h2>
                                     <div className="grid md:grid-cols-2 gap-6">
                                         <LocationAutocomplete
                                             label="Pickup Location"
@@ -363,7 +363,7 @@ const QuotePageContent = () => {
                                                 type="date"
                                                 {...register('date', { required: "Date is required" })}
                                                 className={cn(
-                                                    "w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all",
+                                                    "w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-[border-color,box-shadow]",
                                                     errors.date ? "border-red-500 focus:border-red-500 focus:ring-red-200" : "border-gray-200 focus:border-brand-red focus:ring-brand-red/20"
                                                 )}
                                             />
@@ -382,7 +382,7 @@ const QuotePageContent = () => {
                                     className="space-y-8"
                                 >
                                     <div>
-                                        <h2 className="text-3xl font-black text-brand-dark mb-2">What are we moving?</h2>
+                                        <h2 className="text-3xl font-black tracking-tight text-brand-dark mb-2">What are we moving?</h2>
                                         <p className="text-gray-500">Select items by room</p>
                                     </div>
 
@@ -421,7 +421,7 @@ const QuotePageContent = () => {
                                                         <div
                                                             key={item}
                                                             className={cn(
-                                                                "flex items-center justify-between p-4 rounded-lg border transition-all",
+                                                                "flex items-center justify-between p-4 rounded-lg border transition-colors",
                                                                 quantity > 0
                                                                     ? "border-brand-red bg-brand-red/5 shadow-sm"
                                                                     : "border-gray-100 hover:bg-gray-50"
@@ -456,7 +456,7 @@ const QuotePageContent = () => {
                                                                         setValue('inventory', { ...inventory as Record<string, number>, [item]: Math.max(0, val) });
                                                                     }}
                                                                     className={cn(
-                                                                        "w-12 text-center font-bold bg-transparent border-b border-gray-200 focus:border-brand-red outline-none transition-all appearance-none", // appearance-none handles some styling, but might need standard CSS for spinners
+                                                                        "w-12 text-center font-bold bg-transparent border-b border-gray-200 focus:border-brand-red outline-none transition-colors appearance-none",
                                                                         quantity > 0 ? "text-brand-dark" : "text-gray-300"
                                                                     )}
                                                                 />
@@ -556,7 +556,7 @@ const QuotePageContent = () => {
                                                     const current = watch('otherItems') || [];
                                                     setValue('otherItems', [...current, { name: '', quantity: 1 }]);
                                                 }}
-                                                className="flex items-center gap-2 text-brand-red font-bold hover:text-red-700 transition-colors"
+                                                className="flex items-center gap-2 text-brand-dark font-bold underline underline-offset-4 decoration-brand-red hover:decoration-2 transition-colors"
                                             >
                                                 <Plus className="w-5 h-5" />
                                                 Add Another Item
@@ -574,14 +574,14 @@ const QuotePageContent = () => {
                                     exit={{ opacity: 0, x: -20 }}
                                     className="space-y-6"
                                 >
-                                    <h2 className="text-3xl font-black text-brand-dark mb-8">Almost done!</h2>
+                                    <h2 className="text-3xl font-black tracking-tight text-brand-dark mb-8">Almost done!</h2>
                                     <div className="space-y-4">
                                         <div className="space-y-2">
                                             <label className="font-bold text-gray-700">Full Name <span className="text-red-500">*</span></label>
                                             <input
                                                 {...register('name', { required: "Name is required" })}
                                                 className={cn(
-                                                    "w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all",
+                                                    "w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-[border-color,box-shadow]",
                                                     errors.name ? "border-red-500 focus:border-red-500 focus:ring-red-200" : "border-gray-200 focus:border-brand-red focus:ring-brand-red/20"
                                                 )}
                                             />
@@ -599,7 +599,7 @@ const QuotePageContent = () => {
                                                     }
                                                 })}
                                                 className={cn(
-                                                    "w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all",
+                                                    "w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-[border-color,box-shadow]",
                                                     errors.email ? "border-red-500 focus:border-red-500 focus:ring-red-200" : "border-gray-200 focus:border-brand-red focus:ring-brand-red/20"
                                                 )}
                                             />
@@ -611,7 +611,7 @@ const QuotePageContent = () => {
                                                 type="tel"
                                                 {...register('phone', { required: "Phone number is required" })}
                                                 className={cn(
-                                                    "w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-all",
+                                                    "w-full px-4 py-3 rounded-lg border focus:ring-2 outline-none transition-[border-color,box-shadow]",
                                                     errors.phone ? "border-red-500 focus:border-red-500 focus:ring-red-200" : "border-gray-200 focus:border-brand-red focus:ring-brand-red/20"
                                                 )}
                                             />
@@ -644,7 +644,7 @@ const QuotePageContent = () => {
                                 <button
                                     type="button"
                                     onClick={nextStep}
-                                    className="flex items-center gap-2 px-8 py-3 bg-brand-yellow hover:bg-yellow-400 text-brand-dark font-bold rounded-full transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                                    className="flex items-center gap-2 px-8 py-3 bg-brand-yellow hover:bg-yellow-400 text-brand-dark font-bold rounded-full shadow-md btn-press"
                                 >
                                     Next Step
                                     <ArrowRight className="w-5 h-5" />
@@ -653,7 +653,7 @@ const QuotePageContent = () => {
                                 <button
                                     type="submit"
                                     disabled={isSubmitting}
-                                    className="flex items-center gap-2 px-8 py-3 bg-brand-red hover:bg-red-600 text-white font-bold rounded-full transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1 disabled:opacity-50 disabled:cursor-not-allowed"
+                                    className="flex items-center gap-2 px-8 py-3 bg-brand-red hover:bg-red-600 text-white text-xl font-bold rounded-full shadow-md btn-press disabled:opacity-50 disabled:cursor-not-allowed"
                                 >
                                     {isSubmitting ? (
                                         <>

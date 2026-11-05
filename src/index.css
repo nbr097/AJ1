@@ -6,6 +6,12 @@
   --color-brand-white: #FFFFFF;
   --color-brand-dark: #111827;
   --color-brand-gray: #F3F4F6;
+
+  /* Motion tokens: strong ease-out, short UI durations */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --duration-fast: 160ms;
+  --duration-base: 220ms;
 }
 
 @theme {
@@ -35,6 +41,36 @@
   body {
     @apply bg-brand-white text-brand-dark font-sans antialiased;
   }
+
+  /* Visible keyboard focus everywhere */
+  :focus-visible {
+    outline: 3px solid var(--color-brand-dark);
+    outline-offset: 3px;
+  }
+
+  /* Pointer cursor on anything clickable (Tailwind v4 resets buttons to default) */
+  a,
+  button,
+  [role="button"] {
+    cursor: pointer;
+  }
+
+  button:disabled {
+    cursor: not-allowed;
+  }
+}
+
+@layer components {
+  /* Press feedback: buttons confirm the tap. Only transform and colour move. */
+  .btn-press {
+    transition-property: transform, background-color, border-color, color, box-shadow;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-out);
+  }
+
+  .btn-press:active:not(:disabled) {
+    transform: scale(0.97);
+  }
 }
 
 @layer utilities {
@@ -46,14 +82,6 @@
   .bg-dot-pattern-red {
     background-image: radial-gradient(rgba(238, 24, 32, 0.1) 1px, transparent 1px);
     background-size: 24px 24px;
-  }
-
-  .text-gradient {
-    @apply text-transparent bg-clip-text bg-gradient-to-r from-brand-red to-brand-yellow;
-  }
-
-  .hover-lift {
-    @apply transition-all duration-300 hover:-translate-y-1 hover:shadow-lg;
   }
 
   .text-stroke-brand {
@@ -77,5 +105,22 @@
   input[type=number] {
     -moz-appearance: textfield;
     appearance: textfield;
+  }
+}
+
+/* Reduced motion: keep state changes, drop movement. Loader still spins. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .animate-spin {
+    animation-duration: 1s !important;
+    animation-iteration-count: infinite !important;
   }
 }
