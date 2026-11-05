@@ -1,6 +1,8 @@
 import { Star, Quote } from 'lucide-react';
 import { motion } from 'framer-motion';
 
+const EASE_OUT = [0.23, 1, 0.32, 1] as const;
+
 const reviews = [
     {
         name: "Sarah Mitchell",
@@ -25,54 +27,47 @@ const reviews = [
 export const Reviews = () => {
     return (
         <section id="reviews" className="py-24 bg-brand-gray relative overflow-hidden">
-            {/* Background Decoration */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-5 pointer-events-none">
-                <div className="absolute -top-24 -left-24 w-96 h-96 bg-brand-red rounded-full blur-3xl" />
-                <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-brand-yellow rounded-full blur-3xl" />
-            </div>
-
             <div className="container mx-auto px-4 md:px-6 relative z-10">
                 <div className="text-center max-w-3xl mx-auto mb-16">
-                    <h2 className="text-brand-red font-bold tracking-wider uppercase text-sm mb-2">Customer Stories</h2>
-                    <h3 className="text-4xl font-black text-brand-dark mb-4">Trusted by Locals</h3>
+                    <h2 className="text-4xl md:text-5xl font-black tracking-tight text-brand-dark mb-4">Trusted by locals</h2>
                     <div className="flex items-center justify-center gap-2 mb-4">
-                        <div className="flex text-brand-yellow">
+                        <div className="flex text-brand-yellow" aria-hidden="true">
                             {[...Array(5)].map((_, i) => (
                                 <Star key={i} className="w-6 h-6 fill-current" />
                             ))}
                         </div>
-                        <span className="text-lg font-bold text-gray-700">4.9/5 Average Rating</span>
+                        <span className="text-lg font-bold text-gray-700">4.9/5 average rating</span>
                     </div>
                     <p className="text-gray-600 text-lg">Don't just take our word for it. Here's what our happy customers have to say about their moving experience.</p>
                 </div>
 
-                <div className="grid md:grid-cols-3 gap-8">
+                <div className="grid md:grid-cols-3 gap-6">
                     {reviews.map((review, index) => (
-                        <motion.div
-                            key={index}
-                            initial={{ opacity: 0, y: 20 }}
+                        <motion.article
+                            key={review.name}
+                            initial={{ opacity: 0, y: 12 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            transition={{ delay: index * 0.1 }}
-                            className="bg-white p-8 rounded-2xl shadow-lg border border-gray-100 relative"
+                            transition={{ duration: 0.5, delay: index * 0.08, ease: EASE_OUT }}
+                            className="bg-white p-8 rounded-2xl border border-gray-200 shadow-sm relative flex flex-col"
                         >
-                            <Quote className="absolute top-6 right-6 w-10 h-10 text-brand-yellow/20" />
-                            <div className="flex text-brand-yellow mb-4">
+                            <Quote className="absolute top-6 right-6 w-10 h-10 text-brand-yellow/30" aria-hidden="true" />
+                            <div className="flex text-brand-yellow mb-4" aria-label={`${review.rating} out of 5 stars`}>
                                 {[...Array(review.rating)].map((_, i) => (
-                                    <Star key={i} className="w-4 h-4 fill-current" />
+                                    <Star key={i} className="w-4 h-4 fill-current" aria-hidden="true" />
                                 ))}
                             </div>
-                            <p className="text-gray-600 mb-6 italic">"{review.text}"</p>
+                            <p className="text-gray-700 mb-6 italic">"{review.text}"</p>
                             <div className="flex items-center justify-between mt-auto">
                                 <div>
-                                    <h4 className="font-bold text-brand-dark">{review.name}</h4>
-                                    <span className="text-xs text-gray-400">{review.date}</span>
+                                    <h3 className="font-bold text-brand-dark">{review.name}</h3>
+                                    <span className="text-xs text-gray-500">{review.date}</span>
                                 </div>
-                                <div className="w-10 h-10 rounded-full bg-brand-gray flex items-center justify-center font-bold text-brand-red">
+                                <div className="w-10 h-10 rounded-full bg-brand-gray flex items-center justify-center font-bold text-brand-dark" aria-hidden="true">
                                     {review.name.charAt(0)}
                                 </div>
                             </div>
-                        </motion.div>
+                        </motion.article>
                     ))}
                 </div>
 
@@ -81,9 +76,9 @@ export const Reviews = () => {
                         href="https://g.page/r/Cf6fG8z6Gb79EBM/review"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-brand-dark bg-white border-2 border-brand-gray hover:border-brand-yellow hover:bg-brand-yellow/10 rounded-full transition-all"
+                        className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-brand-dark bg-white border-2 border-gray-200 hover:border-brand-yellow hover:bg-brand-yellow/10 rounded-full btn-press"
                     >
-                        Read More Reviews on Google
+                        Read more reviews on Google
                     </a>
                 </div>
             </div>
